@@ -1,0 +1,22 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+
+bjoern = "==2.0.5"
+certifi = "==2018.1.18"
+chardet = "==3.0.4"
+future = "==0.16.0"
+idna = "==2.6"
+python-telegram-bot = "==9.0.0"
+requests = "==2.18.4"
+ujson = "==1.35"
+"urllib3" = "==1.22"
+
+
+[dev-packages]
+
