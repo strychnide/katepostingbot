@@ -1,3 +1,4 @@
 ## KatepostingBot
 
-Inline bot to spam a random pic into a chat. Made for an inside joke.
+Inline bot for Telegram to spam a random pic of Kate Beckinsale into a chat.
+Made for an inside joke.

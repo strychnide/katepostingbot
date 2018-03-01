@@ -4,6 +4,7 @@ import logging
 import bjoern
 
 from .helpers.bot import setup
+from .helpers.imgur import ImgurCache
 from .helpers.router import Router
 from .config import config
 
@@ -11,14 +12,16 @@ from .config import config
 logging.basicConfig(level=logging.ERROR,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 
+imgur_cache = ImgurCache()
 router = Router()
-bot, queue = setup(config['telegram_token'])
+dispatcher = setup(config['telegram_token'])
 
 from . import routes
+from . import handlers
 
 
 def app(environ, start_response):
-    path = environ['PATH_INFO'].replace(config['base_address'], '')
+    path = environ['PATH_INFO']
     method = environ['REQUEST_METHOD']
     return router(path, method)(environ, start_response)
 

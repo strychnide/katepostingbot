@@ -1,1 +1,1 @@
-web: python -m katepostingbot
+web: python -m bot

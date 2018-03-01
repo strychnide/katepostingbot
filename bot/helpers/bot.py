@@ -4,21 +4,17 @@ from threading import Thread
 from telegram import Bot
 from telegram.ext import Dispatcher
 
-from katepostingbot.config import config
-from katepostingbot.handlers import handlers
+from ..config import config
 
 
 def setup(token):
     bot = Bot(token)
     update_queue = Queue()
-    # bot.set_webhook(config['webhook_address'])
+    bot.set_webhook(config['webhook_url'])
 
     dispatcher = Dispatcher(bot, update_queue)
-
-    handlers(dispatcher)
 
     thread = Thread(target=dispatcher.start, name='dispatcher')
     thread.start()
 
-    return bot, update_queue
-
+    return dispatcher

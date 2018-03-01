@@ -1,4 +1,3 @@
-import ujson
 import secrets
 from uuid import uuid4
 
@@ -6,25 +5,18 @@ from telegram import InlineQueryResultPhoto
 from telegram.ext import InlineQueryHandler
 from telegram.ext.dispatcher import run_async
 
-from .helpers.imgur import imgur_get
+from . import imgur_cache, dispatcher
+from .helpers.handlers import add_handler
 
 
-def handlers(dispatcher):
-    dispatcher.add_handler(InlineQueryHandler(katepost))
-
-
+@add_handler(dispatcher, InlineQueryHandler)
 @run_async
 def katepost(bot, update):
-    url = 'https://api.imgur.com/3/gallery/r/katebeckinsale/time'
-
-    req = imgur_get(url)
-    req = ujson.loads(req.text)
-
-    data = req['data']
+    data = imgur_cache.kb_gallery_json
     random = secrets.randbelow(len(data))
 
     url = f'{data[random]["link"]}'
-    thumb_url = f'{url}?maxwidth=64&shape=thumb'
+    thumb_url = f'{url}?maxwidth=64&shape=thumb&fidelty=low'
 
     results = [
         InlineQueryResultPhoto(

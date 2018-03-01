@@ -6,7 +6,7 @@ class Router(object):
         self.rules = []
 
     def route(self, path, methods=["GET"]):
-        def decorator(func):
+        def wrapper(func):
             rule = {
                 'path': re.compile(path),
                 'methods': methods,
@@ -14,10 +14,10 @@ class Router(object):
             }
             self.rules.append(rule)
 
-            def wrapper(environ, start_response):
+            def wrapped(environ, start_response):
                 return func(environ, start_response)
-            return wrapper
-        return decorator
+            return wrapped
+        return wrapper
 
     def resolve(self, path, method):
         for rule in self.rules:

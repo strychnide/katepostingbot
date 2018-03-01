@@ -2,7 +2,7 @@ import ujson
 
 from telegram import Update
 
-from . import bot, queue, router
+from . import dispatcher, router
 from .config import config
 
 
@@ -17,7 +17,7 @@ def webhook(environ, start_response):
     req = environ['wsgi.input'].read(size)
     req = ujson.loads(req)
 
-    update = Update.de_json(req, bot)
-    queue.put(update)
+    update = Update.de_json(req, dispatcher.bot)
+    dispatcher.update_queue.put(update)
 
     return [b'Online']
