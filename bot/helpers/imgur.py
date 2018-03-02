@@ -1,10 +1,9 @@
-import threading
+from datetime import datetime
 
 import ujson
 import requests
 
 from ..config import config
-from .threading import ThreadJob
 
 
 def imgur_get(url):
@@ -14,17 +13,24 @@ def imgur_get(url):
 
 class ImgurCache():
     def __init__(self, refresh_time=900):
-        self.kb_gallery_json = None
-        self.get_gallery()
+        self.gallery_json = None
+        self.refresh_time = refresh_time
+        self.last_refresh = datetime.now()
+        self.update_gallery()
 
-        event = threading.Event()
-        update_gallery = ThreadJob(self.get_gallery, event, refresh_time)
-        update_gallery.start()
-
-    def get_gallery(self):
+    def update_gallery(self):
         url = 'https://api.imgur.com/3/gallery/r/katebeckinsale/time'
 
         req = imgur_get(url)
         req = ujson.loads(req.text)
 
-        self.kb_gallery_json = req['data']
+        self.gallery_json = req['data']
+
+    def get_gallery_json(self):
+        now = datetime.now()
+        delta = now - self.last_refresh
+        if delta.total_seconds() > self.refresh_time:
+            self.update_gallery()
+            self.last_refresh = now
+
+        return self.gallery_json

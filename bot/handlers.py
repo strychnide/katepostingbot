@@ -12,7 +12,7 @@ from .helpers.handlers import add_handler
 @add_handler(dispatcher, InlineQueryHandler)
 @run_async
 def katepost(bot, update):
-    data = imgur_cache.kb_gallery_json
+    data = imgur_cache.get_gallery_json()
     random = secrets.randbelow(len(data))
 
     url = f'{data[random]["link"]}'
