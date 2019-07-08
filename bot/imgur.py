@@ -33,4 +33,7 @@ class ImgurCache:
             await self.update_gallery()
             self.last_refresh = now
 
-        return choice(self.gallery)
+        pic = choice(self.gallery)
+        if pic.get('is_album'):
+            pic = choice(pic['images'])
+        return pic

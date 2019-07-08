@@ -18,7 +18,7 @@ class Katepost(Trigger):
         pic = await imgur_cache.get_pic()
         url = f'{pic["link"]}'
         thumb_url = f'{url}?maxwidth=64&shape=thumb&fidelty=low'
-        result = InlineQueryResultPhoto(url, thumb_url)
+        result = InlineQueryResultPhoto(url, thumb_url).width(pic['width']).height(pic['height'])
 
         req = AnswerInlineQuery(query_id, [result]).serialize()
         await bot.api_request(req)
