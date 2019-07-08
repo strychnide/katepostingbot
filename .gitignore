@@ -1,4 +1,10 @@
 # custom
+.mypy_cache
+*venv*
+docs
+.coverage
+coverage
+*.lock
 .idea
 
 # github defaults for python

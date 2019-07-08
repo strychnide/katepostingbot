@@ -1,0 +1,12 @@
+FROM pypy:3.6
+
+ENV PYTHONUNBUFFERED 1
+ENV LIBMEDIAINFO_PATH="/usr/lib/x86_64-linux-gnu/libmediainfo.so"
+RUN sed -i 's/stretch/buster/g' /etc/apt/sources.list
+RUN apt-get update
+RUN apt-get install libmediainfo0v5 libmediainfo-dev -y
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY ./bot ./bot
+CMD ["pypy3", "-m", "bot"]

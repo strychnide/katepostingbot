@@ -1,0 +1,3 @@
+libmediainfo-cffi==2.1.5
+ubot==5.1.1
+uvicorn==0.8.3
